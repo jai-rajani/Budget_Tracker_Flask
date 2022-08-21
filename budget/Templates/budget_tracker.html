@@ -1,0 +1,204 @@
+{% extends 'layouts.html'%}
+{%block body%}
+  <style>
+    .colour{
+      background-color:rgb(185, 177, 252);
+
+    }
+    .right{
+          position:absolute;
+            right: 100px;
+            
+             padding: 10px;
+    }
+    .extra_opt{
+          visibility: hidden;
+    }
+    .extra_inc{
+          visibility: hidden;
+        
+    }
+    .extra_opte{
+          visibility: hidden;
+    }
+    .extra_exp{
+          visibility: hidden;
+        
+    }
+    @media screen and (max-width: 995px) { 
+          
+          .right{
+              visibility: hidden;
+          }
+        }
+  </style>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category,message in messages %}
+     <div class='alert alert-{{category}}'>{{message}}</div>
+     
+    {% endfor %}
+    
+  {% endif %}
+{% endwith %}
+  
+  
+    <br>
+    
+  <head><div class='text-center'><h2>Savings Calculator</h2></div></head>
+  <br>
+  <body class='colour'>
+    
+  <div class='container'>
+    <div class='row'>
+        <div class='col-sm-6 text-left' id='income_input_main'>
+             <h3>Income Tab</h3><br>
+             <div class='row text-center income_input' id='income_input'>
+
+              <form class='form-inline' method="POST" action="">
+                {{form.hidden_tag()}}
+            {{form.selector(class='form-select form-control selector')}}
+            {{form.amount(class='form-control val',placeholder='Enter amount')}}
+            <button type='button' value="add" class='btn btn-primary' onclick="visible()" >+</button>
+             <button type='button' value='sub' class='btn btn-primary' onclick="invisible()">- </button>
+            
+             
+              <br>            <br>              <br>
+            <div>
+             {{form.selector1(class='form-select form-control selector extra_opt')}}
+            {{form.amount1(class='form-control val extra_inc',placeholder='Enter amount',id='invis',value=0)}}
+            <br>            <br>              
+
+            {{form.selector2(class='form-select form-control selector extra_opt')}}
+            {{form.amount2(class='form-control val extra_inc',placeholder='Enter amount',id='invis',value=0)}}
+            <br>           <br>
+
+            {{form.selector3(class='form-select form-control selector extra_opt')}}
+            {{form.amount3(class='form-control val extra_inc',placeholder='Enter amount',id='invis',value=0)}}
+            <br>            <br>
+
+            {{form.selector4(class='form-select form-control selector extra_opt')}}
+            {{form.amount4(class='form-control val extra_inc',placeholder='Enter amount',id='invis',value=0)}}
+            <br>            <br>              <br>
+              
+              </div>
+              </div>
+             
+             {{form.submitter(class='btn btn-primary')}}
+             </form>
+
+             
+             
+            
+            
+            </div>
+            
+           
+
+    
+    <div class='col-sm-6 text-left' id='expense_input_main'>
+              <h3>Expense Tab</h3><br>
+              <div class='row text-center expense_input' id='expense_input'>
+               <form class='form-inline' action="" method="POST">
+                {{exp_form.hidden_tag()}}
+                {{exp_form.exp_selector(class='form-select form-control selector_e')}}
+                {{exp_form.exp_amount(class='form-control val',placeholder='Enter amount')}}
+                <button type='button' value="add" class='btn btn-primary' onclick="exp_visible()" >+</button>
+                <button type='button' value='sub' class='btn btn-primary' onclick="exp_invisible()">- </button>
+            
+               <br>               <br><br>        
+              <div>
+                {{exp_form.exp_selector1(class='form-select form-control selector_e extra_opte')}}
+                {{exp_form.exp_amount1(class='form-control val extra_exp',placeholder='Enter amount',value=0)}}
+                <br>            <br>              
+
+                {{exp_form.exp_selector2(class='form-select form-control selector_e extra_opte')}}
+                {{exp_form.exp_amount2(class='form-control val extra_exp',placeholder='Enter amount',value=0)}}
+                <br>            <br>              
+
+                {{exp_form.exp_selector3(class='form-select form-control selector_e extra_opte')}}
+                {{exp_form.exp_amount3(class='form-control val extra_exp',placeholder='Enter amount',value=0)}}
+                <br>            <br>             
+
+                {{exp_form.exp_selector4(class='form-select form-control selector_e extra_opte')}}
+                {{exp_form.exp_amount4(class='form-control val extra_exp',placeholder='Enter amount',value=0)}}
+                <br>            <br>              
+
+               
+
+
+              </div>
+              </div>
+              <div class='row-sm-6 text-center' id='buttons_e'>
+                {{exp_form.exp_submitter(class='btn btn-primary')}}
+              </div>
+              </form>
+             </div>
+              </div>
+              </div>
+              </body>
+     
+ 
+ 
+  
+  </body>
+  <script>
+    var c=-1;
+    var ec=-1;
+    function visible(){
+    
+    var x=document.getElementsByClassName('extra_opt');
+    var y=document.getElementsByClassName('extra_inc');
+    if(c<3){
+    c++;
+    x[c].style.visibility='visible';
+    y[c].style.visibility='visible';
+    y[c].value='';
+
+    
+    }
+    }
+    
+    function invisible(){
+    
+    var m=document.getElementsByClassName('extra_opt');
+    var n=document.getElementsByClassName('extra_inc');
+    if(c<4 && c>=0){
+      m[c].style.visibility='hidden';
+      n[c].style.visibility='hidden';
+      n[c].value=0;
+      c--;
+    }
+    
+  }
+
+
+  function exp_visible(){
+    
+    var ex=document.getElementsByClassName('extra_opte');
+    var ey=document.getElementsByClassName('extra_exp');
+    if(ec<3){
+    ec++;
+    ex[ec].style.visibility='visible';
+    ey[ec].style.visibility='visible';
+    ey[ec].value='';
+
+    
+    }
+    }
+    
+    function exp_invisible(){
+    
+    var em=document.getElementsByClassName('extra_opte');
+    var en=document.getElementsByClassName('extra_exp');
+    if(ec<4 && ec>=0){
+      em[ec].style.visibility='hidden';
+      en[ec].style.visibility='hidden';
+      en[ec].value=0;
+      ec--;
+    }
+    
+  }
+  </script>
+  
+  {%endblock%}

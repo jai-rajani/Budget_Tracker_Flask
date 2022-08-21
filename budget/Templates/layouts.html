@@ -1,0 +1,57 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+   
+    .right{
+          position:absolute;
+            right: 10vw;
+            
+             padding: 1vw;
+    }
+.right_service{
+  position:absolute;
+  padding-right: 2%;
+  right: 0%;
+}
+</style>
+
+<nav class='navbar navbar-custom navbar-expand-sm navbar-dark bg-dark sticky-top shrink'>
+        
+    <a class='navbar-brand' href='C:\Users\HP\Documents\HTML\main_page.html'>Budget Tracker</a>   
+    
+    <ul class='navbar-nav'>
+        <li class='nav-item hactive'><a class='nav-link' href="{{url_for('main')}}">Home Page</a></li>
+
+        {%if current_user.is_authenticated%}
+        <li class='nav-item sactive'><a class='nav-link' href="{{url_for('budget')}}">Savings Calculator</a></li>
+        <li class='nav-item '><a class='nav-link' href="{{url_for('savingtoday')}}">Savings Tab</a></li>
+        {%endif%}
+       
+    
+    </ul>
+    
+    <ul class='navbar-nav right'>
+        <li class='nav-item'><a class='nav-link' href='https://www.instagram.com/'>Instagram</a></li>
+        <li class='nav-item'><a class='nav-link' href='https://www.twitter.com'>Twitter</a></li>
+        <li class='nav-item'><a class='nav-link' href='https://www.linkedln.com'>Linkedln</a></li>
+        
+    
+    </ul>
+    <ul class='navbar-nav right_service'>
+    {%if current_user.is_authenticated%}
+    <li class='nav-item' href='#'><button class="btn btn-md btn-outline-secondary " type="button" onclick= "location.href='{{url_for('logout')}}';">Logout</button></li>
+    {%else%}
+    <li class='nav-item' href='#'><button class="btn btn-md btn-outline-secondary " type="button" onclick= "location.href='{{url_for('main')}}';">Login</button></li>
+    </ul>
+    {%endif%}
+    
+    
+    </nav>
+    {% block body %}
+    {%endblock %}
+    
+</html>

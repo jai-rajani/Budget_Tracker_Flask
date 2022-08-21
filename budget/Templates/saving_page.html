@@ -1,0 +1,370 @@
+{% extends 'layouts.html'%}
+{% block body %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .colour{
+          background-color:rgb(185, 177, 252);
+         }
+         .savnav{
+             font-size: 1.5vw;
+             padding-right: 20vw;
+             padding-left: 5vw;
+             color: rgb(180, 72, 72);
+         }
+        .nopadding{
+          background-color:rgb(5, 55, 68);
+          background-color:rgb(30, 12, 189);
+          background-color:rgb(121, 106, 255);
+
+          background-color:rgb(51, 46, 107);
+          background-color:rgb(70, 161, 236);
+          background-color:rgb(19, 92, 105);
+
+
+            margin:0;
+            padding:0;
+        }
+        .flex-container {
+         display: flex;
+         flex-direction: row;
+        }
+        .flex-container_v {
+         display: flex;
+         flex-direction: column;
+         }
+         .right{
+            position: relative;
+            left: 30vw;
+            
+             padding: 1vw;
+         }
+         .right_nav{
+          position:absolute;
+            right: 100px;
+            
+             padding: 10px;
+         }
+         .left{
+            float:left;
+            padding-left:150px;
+            font-size: 2vw;
+             
+         }
+         .sidebar{
+            height: 100%; 
+            width: 100px;
+            position: fixed; 
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color:#111;
+            overflow-x: hidden;
+            padding-top: 20px;
+         }
+         .top{
+             color:white;
+         }
+         .side_text{
+            padding: 120px 10px 6px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #818181;
+            display: block;
+         }
+         .navbar-custom{
+              height: 4vw;
+          }
+         @media screen and (max-width: 995px) { 
+          
+          .right_nav{
+              visibility: hidden;
+          }
+        }
+        @media screen and (max-width: 800px) {
+          .sidebar{
+              visibility: hidden;
+          }
+        }
+          
+          @media screen and (max-width: 900px) {
+          .flex-container{
+              display: flex;
+              flex-direction: column;
+          }
+
+          
+        }
+        
+    
+        
+      </style>
+      <nav class='navbar  navbar-expand-sm navbar-dark bg-primary sticky-top shrink navbar-custom'>
+        
+        <a class='navbar-brand' style="color:#111" href="{{url_for('main')}}">Savings</a>   
+        
+        <ul class='navbar-nav '>
+
+            <li class='nav-item savnav'><a class='nav-link'  style="color:#111" href="{{url_for('savingtoday')}}">Today</a></li>
+            <li class='nav-item savnav'><a class='nav-link' style="color:#111" href="{{url_for('saving')}}">Total</a></li>
+
+            
+    
+            <li class="nav-item dropdown savnav">
+                <a class="nav-link dropdown-toggle"  style="color:#111" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Month
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='January')}}">January</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='February')}}">February</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='March')}}">March</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='April')}}">April</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='May')}}">May</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='June')}}">June</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='July')}}">July</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='August')}}">August</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='September')}}">September</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='October')}}">October</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='November')}}">November</a>
+                  <a class="dropdown-item" href="{{url_for('savingmonth',month='December')}}">December</a>
+                  
+                  
+                </li>
+           
+        
+        </ul>
+        
+        <!--<ul class='navbar-nav right'>
+            <li class='nav-item'><a class='nav-link' href='https://www.instagram.com/'>Instagram</a></li>
+            <li class='nav-item'><a class='nav-link' href='https://www.twitter.com'>Twitter</a></li>
+            <li class='nav-item'><a class='nav-link' href='https://www.linkedln.com'>Linkedln</a></li>
+            
+        
+        </ul>-->
+        </nav>
+      
+      
+
+        <div class='sidebar'>
+            
+                <a href='#income_jump'  class='side_text'>Income</a>
+                <a href='#expense_jump'  class='side_text'>Expense</a>
+               <a href='#saving_jump' class='side_text'>Saving</a>
+            
+            
+
+        </div>
+      
+      <body class='colour'>
+          
+             
+       <br   id='income_jump'>
+       <br><br>
+       <br>
+        <div class='flex-container'>
+            <div class='flex-container_v left'>
+            <div><h3>Income Tab</h3></div><br>
+            <p id='0'></p>
+            <p id='1'> </P>
+            <P id='2'></P>
+            <p id='it'></p>
+            </div>
+            <div id="incPlot" class='right chart'></div>
+            
+
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br    id='expense_jump'>
+        <br>
+        <br><br><br><br>
+
+
+
+
+        <div class='flex-container'>
+            <div class='flex-container-v left'>
+                <h4>Expense Tab</h4><br>
+                <p id='3'></p>
+                <p id='4'></P>
+                <P id='5'></P>
+                <p id='6'></p>
+                <p id='7'></P>
+                <P id='8'></P>
+                <p id='et'></p>
+                </div>
+        <div id="expPlot" class='right'></div>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        
+        
+        
+
+
+        <div class='flex-container' id='saving_jump'>
+            <div class='flex-container_v left'>
+            <div><h3>Savings</h3></div><br>
+            <p id='tinc'>Total income earned is </p>
+            <p id='texp'>Total expenses spent is </P>
+            <P id='tsav'>Total savings are </P>
+            </div>
+            <div id='Savings' class='right'></div>
+            
+            
+
+        </div>
+            
+            
+        
+         
+      
+       </body>
+        
+       <script>
+         
+
+         var income_val = [parseInt("{{s[0]}}"),parseInt("{{s[1]}}"),parseInt("{{s[2]}}")];
+         var expense_val = [parseInt("{{ss[0]}}"),parseInt("{{ss[1]}}"),parseInt("{{ss[2]}}"),parseInt("{{ss[3]}}"),parseInt("{{ss[4]}}"),parseInt("{{ss[5]}}")];
+         var total_income=  income_val[0]+income_val[1]+income_val[2]
+         var total_expense=expense_val[0]+expense_val[1]+expense_val[2]+expense_val[3]+expense_val[4]+expense_val[5]
+         var income_name= ["Salary", "Loan", "Gift"];       
+
+         var layout = {
+             autosize:false,
+            width:370,
+            height:370,
+             margin:{
+                 t:25,
+                 pad:0,
+                 b:0,
+                 l:0,
+                 r:5
+             },
+             
+             
+             title:
+                {text:"Income distribution",
+                font:{
+                     color:"white"
+                }},
+             //paper_bgcolor:"white",
+             paper_bgcolor:"rgb(185,177,252)",
+             colorway:["rgb(5,55,68)","rgb(30,12,189),rgb(121, 106, 255)"],
+             legend:{
+                 font:{color:'rgb(0,0,0)'}
+             }
+                   
+            
+            
+            };
+            var config = {responsive: true};
+         
+         var data = [{labels:income_name, values:income_val, type:"pie"}];
+
+         Plotly.newPlot("incPlot", data, layout,config);
+         
+
+
+         
+         var expense_name=['Rent','Electricity Bill','Water Bill','Food','Gift','Travel'];     
+
+         var layout = {
+             autosize:false,
+             width:400,
+             height:400,
+             margin:{
+                 t:25,
+                 //pad:4,
+                 b:0,
+                 l:0,
+                 r:5
+             },
+             
+             title:
+                {text:"Expense distribution",
+                font:{
+                     color:'black'}
+                },
+             paper_bgcolor:"rgb(185,177,252)",
+             colorway:["rgb(5,55,68)","rgb(30,12,189)","rgb(121, 106, 255)",'rgb(51, 46, 107)','rgb(70, 161, 236)','rgb(19, 92, 105)'],
+             legend:{
+                 font:{color:'black'}
+             }
+            
+            
+            
+            };
+         var data = [{labels:expense_name, values:expense_val, type:"pie"}];
+         Plotly.newPlot("expPlot", data, layout,{displayModeBar:false});
+
+
+         var saving_val=[total_income,total_expense,total_income-total_expense];
+         var saving_name=['Total Income','Total Expenses','Savings'];     
+
+         var layout = {
+             autosize:false,
+             width:400,
+             height:400,
+             margin:{
+                 t:25,
+                 //pad:4,
+                 b:0,
+                 l:0,
+                 r:5
+             },
+             
+             title:
+                {text:"Total Savings",
+                font:{
+                     color:'black'}
+                },
+             paper_bgcolor:"rgb(185,177,252)",
+             colorway:["rgb(5,55,68)","rgb(30,12,189),rgb(121, 106, 255)"],
+             legend:{
+                 font:{color:'black'}
+             }
+            
+            
+            
+            };
+         var data = [{labels:saving_name, values:saving_val, type:"pie"}];
+         Plotly.newPlot("Savings", data, layout,{displayModeBar:false});
+
+         for(var i=0;i<3;i++){
+         var j=i.toString();
+         var saving_text=document.getElementById(j);
+         saving_text.innerHTML=income_name[i]+" income is "+income_val[i];
+         }
+
+         var t_income=document.getElementById('it');
+         t_income.innerHTML="Total income is "+total_income;
+
+         var t_expense=document.getElementById('et');
+         t_expense.innerHTML="Total income is "+total_expense;
+
+         var t1_income=document.getElementById('tinc');
+         t1_income.innerHTML="Total income is "+total_income;
+
+         var t1_expense=document.getElementById('texp');
+         t1_expense.innerHTML="Total expense is "+total_expense;
+
+         var t_sav=document.getElementById('tsav');
+         t_sav.innerHTML="Total savings is "+(total_income-total_expense);
+
+
+
+         for(var i=0;i<6;i++){
+         var j=(i+3).toString();
+         var saving_text=document.getElementById(j);
+         saving_text.innerHTML=expense_name[i]+" income is "+expense_val[i];
+         }
+         
+         
+       </script>
+     
+       {%endblock%}

@@ -1,0 +1,369 @@
+{% extends 'layouts.html'%}
+
+{% block body %}
+<style>
+
+  body{
+      background-image: url({{url_for('static',filename='pics/budget_pic2.jpg')}});
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-size: 100% 100%;
+  }
+  .right{
+            position:absolute;
+              right: 10vw;
+              
+               padding: 1vw;
+      }
+  .right_service{
+    position:absolute;
+    padding-right: 2%;
+    right: 0%;
+  }
+  .header{
+      text-align: center;
+      font-size: 5vw;
+      padding-top: 5%;
+  }
+  .side_text{
+              padding: 10px 10px 0px 10px;
+              text-decoration: none;
+              font-size: 14px;
+              color: #000000;
+              display: block;
+  }
+  .sidebar{
+              height: 100%; 
+              width:0%;
+              position: fixed; 
+              z-index: 1;
+              top: 0;
+              right: 0;
+              background-color:rgb(107, 108, 110);
+              overflow-x: hidden;
+              padding-top: 20px;
+           }
+  .down_text{
+              padding: 0px 10px 3px 15px;
+              text-decoration: none;
+              font-size: 13px;
+              color: #ffffff;
+              
+           }
+  .downbar{
+              height: 0%;
+              width: 85%;
+              position: fixed; 
+              z-index: 1;
+              bottom: 0;
+              left: 0;
+              background-color:rgb(60, 60, 61);
+              overflow-x: hidden;
+              
+           }
+  
+  .points{
+            padding-right:0px;
+            font-size: 17px;
+            color:#000000;
+            font-family: 'Times New Roman', Times, serif;
+          }
+  
+          
+  ul.separator {
+            
+            list-style-type:upper-roman;
+            list-style-position: inside;
+            padding: 0;
+            width: 100%;
+          }
+  
+          ul.separator li {
+            padding: 0px 1vw;
+            border-bottom: 0px solid rgb(0, 0, 0);
+          }
+  
+          hr.line{
+            border: 1px solid black;
+          }
+          .shrink{
+            max-height: 14vw;
+          }
+          @media screen and (max-width: 800px) {
+  
+          }
+          .mid{
+      padding-left: 35%;
+      }
+  .sizing{
+      width: 30vw;
+      
+  }
+  
+  .form-rounded{
+     /*background-color: transparent;*/
+     border-color: #000000;
+      border-radius: 20px;
+      
+      
+      opacity: 0.8;
+      -webkit-box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+  }
+  .login{
+      border-radius:20px;
+      width: 6vw;
+      justify-content: center;
+      align-items: center;
+      
+  }
+   
+  .form-control::-webkit-input-placeholder { color: rgb(27, 26, 26);
+   }  /* WebKit, Blink, Edge */
+  .form-control:-moz-placeholder { color: rgb(0, 0, 0); }  /* Mozilla Firefox 4 to 18 */
+  .form-control::-moz-placeholder { color: rgb(0, 0, 0); }  /* Mozilla Firefox 19+ */
+  .form-control:-ms-input-placeholder { color: rgb(0, 0, 0); }  /* Internet Explorer 10-11 */
+  .form-control::-ms-input-placeholder { color: rgb(0, 0, 0); }  /* Microsoft Edge */
+  
+  .login{
+      border-radius:20px;
+      width: 6vw;
+      justify-content: center;
+      align-items: center;
+      
+  }
+  .mid-button{
+      padding-left: 17%;
+  }
+  
+  .contain{
+      display: flex;
+      flex-direction: row;
+      padding-left: 1vw;
+      padding-right: 30vw;
+  }
+  @media screen and (max-width: 995px) { 
+            
+            .right{
+                visibility: hidden;
+            }
+          }
+  
+  
+  
+  
+  </style>
+  
+  <div class='sidebar' id='service'>
+    <p  class='side_text' style='text-align:center;font-size: 22px;padding-top: 60px;'>Services</p><hr class="line">
+    <ul class='separator'>
+      <li class='points'>
+        Track Your Account</li>
+    <p  class='side_text'>Keep Track of your Checking, Investment, Savings and even PayPal Accounts all from one screen</p><hr class='line'>
+    <li class='points'>Track Spending</li>
+    <p  class='side_text'>Sync your Transactions by Importing them, or enter them Manually so you can always stay on top of your Budget.</p><hr class='line'>
+    <li class='points'>Schedule Income</li>
+    <p class='side_text'>Keep track of your Paychecks or other sources of Income on the My Income page.</p><hr class='line'>
+    </ul>
+
+
+</div>
+
+<div class='downbar' id='down'>
+          
+<p  class='down_text' style='text-align:center;font-size: 14px;'>About</p>
+<p  class='down_text'>Budget your finances to know where your money is going. BudgetTracker is a complete online money management tool designed to keep track of all your transactions and bank accounts from your computer, mobile phone, or iPad.</p>
+
+
+
+</div>
+<body id='full'>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category,message in messages %}
+     <div class='alert alert-{{category}}'>{{message}}</div>
+     
+    {% endfor %}
+    
+  {% endif %}
+{% endwith %}
+<h1 class='header'>Budget Tracker</h1><br><br>
+<h5 id='saved' class='mid'></h5>
+
+
+<form method="post" action="">
+  {{form.hidden_tag()}}
+  {%if current_user.is_authenticated%}
+  {%else%}
+<div class='mid' id='login_form'>
+  <div class="input-group">
+      <div class='sizing' >
+      
+    
+       {{form.email.label()}}
+       {%if form.email.errors%}
+       {{form.email(class='form-control form-rounded is-invalid',placeholder='Email')}}   
+       {% for error in form.email.errors %}
+          <span>
+ 
+              {{error}}
+          </span>
+          {% endfor %} 
+        {%else%}
+        {{form.email(class='form-control form-rounded',placeholder='Email')}}
+        {%endif%}
+    </div></div><br>
+    <div class="input-group">
+        <div class='sizing'>
+     
+          {{form.password.label()}}
+          {%if form.password.errors%}
+          {{form.password(class='form-control form-rounded is-invalid',placeholder='Password')}}   
+          {% for error in form.password.errors %}
+             <span>
+    
+                 {{error}}
+             </span>
+             {% endfor %} 
+           {%else%}
+           {{form.password(class='form-control form-rounded',placeholder='Password')}}
+           {%endif%}  
+    </div></div><br>
+    <div class='contain'>
+      <div class='mid-button'>
+        {{form.login(class='btn btn-md btn-dark login' )}}
+    </div>
+    <button type="button" class="btn btn-md btn-dark login" data-toggle="modal" data-target="#exampleModalCenter">Register</button>
+    </div>
+    {%endif%}
+  </form>
+</div>
+
+
+   
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post" action="">
+                {{regform.hidden_tag()}}
+
+               
+                
+                {{regform.rusername.label()}}
+                {%if regform.rusername.errors%}
+                {{regform.rusername(class='form-control form-rounded is-invalid',placeholder='Username')}}   
+                {% for error in regform.rusername.errors %}
+                <span>
+ 
+                  {{error}}
+                </span>
+                {% endfor %} 
+                {%else%}
+                {{regform.rusername(class='form-control form-rounded',placeholder='Username')}}
+                {%endif%}
+
+                {{regform.remail.label()}}
+                {%if regform.remail.errors%}
+                {{regform.remail(class='form-control form-rounded is-invalid',placeholder='Email')}}   
+                {% for error in regform.remail.errors %}
+                <span>
+ 
+                  {{error}}
+                </span>
+                {% endfor %} 
+                {%else%}
+                {{regform.remail(class='form-control form-rounded',placeholder='Email')}}
+                {%endif%}
+
+                {{regform.rpassword.label()}}
+                {%if regform.rpassword.errors%}
+                {{regform.rpassword(class='form-control form-rounded is-invalid',placeholder='Password')}}   
+                {% for error in regform.rpassword.errors %}
+                <span>
+ 
+                  {{error}}
+                </span>
+                {% endfor %} 
+                {%else%}
+                {{regform.rpassword(class='form-control form-rounded',placeholder='Password')}}
+                {%endif%}
+
+                {{regform.rconfirm_password.label()}}
+                {%if regform.rusername.errors%}
+                {{regform.rconfirm_password(class='form-control form-rounded is-invalid',placeholder='rconfirm_password')}}   
+                {% for error in regform.rconfirm_password.errors %}
+                <span>
+ 
+                  {{error}}
+                </span>
+                {% endfor %} 
+                {%else%}
+                {{regform.rconfirm_password(class='form-control form-rounded',placeholder='rconfirm_password')}}
+                {%endif%}
+              
+            </div>
+            <div class="modal-footer">
+              {{regform.rreg(class='btn btn-md btn-dark' )}}
+            </form>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      
+    
+    
+    
+      </div>
+    <!--<button type="submit" value='Register' class='btn btn-md btn-dark login' >Register</button></div>
+    <div class='mid-button'><button type="submit" value='Submit' class='btn btn-md btn-dark login' >Log In</button></div>-->
+   
+
+
+
+</body>
+
+<script>
+  var x=document.getElementById('service');
+  var y=document.getElementById('full');
+  var z=document.getElementById('down'); 
+  x.style.width='0%';
+
+function Collapse(){
+ 
+ if(x.style.width=='0%'){
+  
+   x.style.width='15%';
+   y.style.backgroundSize='85% 85%';
+   z.style.width='85%';
+   z.style.height='15%';
+  }
+ else{
+  
+   y.style.backgroundSize='100% 100%';
+   x.style.width='0%';
+   z.style.width='0%';
+}
+ }
+    
+    
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
